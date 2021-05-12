@@ -34,15 +34,24 @@ public class AppUserService implements UserDetailsService {
                 .orElseThrow(()->new UsernameNotFoundException(String.format(USER_NOT_FOUND, email)));
     }
     public String signUpUser(AppUser appUser){
+        System.out.println(appUser.getEmail());
+        //check if te user exists
         boolean userExists = appUserRepository.findByEmail(appUser.getEmail()).isPresent();
+
+        //create the token
         String token = UUID.randomUUID().toString();
+
+
         if (userExists){
+            System.out.println("arrive");
+
+            //we get the existing user from the db
            UserDetails existentUser = loadUserByUsername(appUser.getEmail());
-           if (!existentUser.getUsername().equals(appUser.getEmail())) { // mund te krahasoj te gjithe atributet ketu
-               // tregon qe nuk eshte i njejti user
+            AppUser appUser1 = appUserRepository.getOne(appUser.getUsername());
+            System.out.println(existentUser.getUsername());
+           if (existentUser.isEnabled()) {
                throw new IllegalStateException("email already taken");
            }
-           AppUser appUser1 = appUserRepository.getOne(appUser.getEmail());
             ConfirmationToken confirmationToken = new ConfirmationToken(
                     token,
                     LocalDateTime.now(),

@@ -22,7 +22,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests().antMatchers("/api/v*/registration/**")
+        http.csrf().disable().authorizeRequests().antMatchers("/api/v*/registration/**",
+                "/*.js",
+                "/*.jsx", "/main.css")
                 .permitAll().anyRequest().authenticated().and().formLogin();
     }
 
