@@ -34,7 +34,7 @@ public class AppUserService implements UserDetailsService {
                 .orElseThrow(()->new UsernameNotFoundException(String.format(USER_NOT_FOUND, email)));
     }
     public String signUpUser(AppUser appUser){
-        System.out.println(appUser.getEmail());
+
         //check if te user exists
         boolean userExists = appUserRepository.findByEmail(appUser.getEmail()).isPresent();
 
@@ -43,15 +43,15 @@ public class AppUserService implements UserDetailsService {
 
 
         if (userExists){
-            System.out.println("arrive");
 
             //we get the existing user from the db
            UserDetails existentUser = loadUserByUsername(appUser.getEmail());
-            AppUser appUser1 = appUserRepository.getOne(appUser.getUsername());
+
             System.out.println(existentUser.getUsername());
            if (existentUser.isEnabled()) {
-               throw new IllegalStateException("email already taken");
+               throw new IllegalStateException("Email already taken");
            }
+            AppUser appUser1 = appUserRepository.getOne(appUser.getUsername());
             ConfirmationToken confirmationToken = new ConfirmationToken(
                     token,
                     LocalDateTime.now(),

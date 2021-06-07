@@ -3,13 +3,15 @@ package com.example.StudentSystem.MeetBooking.registration;
 
 import lombok.*;
 
+
 @Getter
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
 public class RegistrationRequest {
-    private final String firstName;
-    private final String lastName;
-    private final String email;
-    private final String password;
+
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String password;
 }
